@@ -1,25 +1,56 @@
 html{
 	margin: auto;
 	text-align: center;
-
+}
+h1 {
+	background-color:#555;
+	font-family: Georgia;
+	text-shadow: 0px 1px 1px #aaa;
+	color: #222;
 }
 table, #info, table#boardWrap{
 	margin: auto;
+	font-family: Georgia !important;
+	border-spacing: 3px;
 }
 
+#startGame{
+	text-shadow: 0px 1px 1px #aaa;
+}
 
-table#boardWrap tr {
-	border: 1px solid #000;
+#cap{
+	vertical-align: middle;
+	padding:20px 0;
+}
+
+table#bdoardWrap tr {
+	border: 1px dotted #aaa;
 }
 
 table#boardWrap td {
+	margin:1px;
 	padding: 20px;
-	border: 1px solid #000;
+	border:1px dotted #aaa;
 	width:25px;
+	height:25px;
+	border-radius: 26px;
+	cursor: pointer;
 }
+table#boardWrap td:hover {
+	cursor: pointer;
+}
+
 .red{
-	background-color: #ca0202;
+	background-color: #ba0101;
 }
 .yellow{
-	background-color: yellow;
+	background-color: #ccbb3f;
+}
+
+
+td.red{
+
+}
+td.yellow{
+
 }

@@ -18,12 +18,12 @@ var
     		default: currentPlayer ='red'
     	}
     	get('cap').className = currentPlayer;
-    	//='<span class="'+currentPlayer+'">(current turn)</span>';
+    	get('cap').innerHTML = '(current turn by: '+currentPlayer+')';
 
     },
     begin = function(){
     	currentPlayer='red';
-    	get('cap').innerHTML='(now playing)';
+    	get('cap').innerHTML='(now playing: '+currentPlayer+')';
 		get('cap').className = currentPlayer;
     	prepareBoard();
     	updateBoardView();
@@ -45,7 +45,7 @@ var
     		cellsHTML += '<tr>';
     		for (var col=0;col < board[row].length;col++){
     			//cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'"><a>'+board[row][col]+'<br>'+row+'-'+col+'</a></td>';
-    			cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'"><a>'+row+'-'+col+'</a></td>';
+    			cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'" tooltip="'+row+'-'+col+'"></td>';
     		}
     		cellsHTML += '</tr>';
     	}
@@ -57,32 +57,37 @@ var
     	//alert('binding...');
     	var row=board.length-1;
     	var col=board[row].length-1;
-
+    	var lastRowClickable=0;
 		for (col=board[row].length-1;col >= 0;col--){
-			for (row=board.length-1; row >= 0;row--){	
+			for (lastRowClickable=board.length-1;lastRowClickable>0;lastRowClickable--){
+				 if(board[lastRowClickable][col].length == 0) 
+				 	break;}
+
+			for (row=board.length-1; row >= 0;row--){
 				if(board[row][col].length > 0){
 					continue;
 				}else{
-					cell(row,col).onclick=null;
-					cell(row,col).onclick = function(row,col){
+					//cell(row,col).onclick=null;
+					cell(row,col).onclick = function(row,col,lastRowClickable){
 						return function(){   //we need to force early binding para di mawala si row,col
 							//alert('clicked '+row+':'+col +' with value: '+board[row][col]);
-							board[row][col]=currentPlayer;
+							board[lastRowClickable][col]=currentPlayer;
+							//alert(board[row][col]);
 							updateBoardView();
-							cell(row,col).onclick=null;
-							if (checkBoardforWinner(row,col)){
+							//cell(lastRowClickable,col).onclick=null;
+							if (winnerFound(lastRowClickable,col)){
 								get('cap').innerHTML='(winner!)';
 								alert(currentPlayer + ' wins!');
 								begin();
 							} else switchPlayer();
 						}
-					}(row,col)
-					break;
+					}(row,col,lastRowClickable)
+					//break;
 				}
 			}
 		}
     },
-    checkBoardforWinner = function(row,col){
+    winnerFound = function(row,col){
     	return (isVerticalConnect(row,col)||isHorizontalConnect(row,col)||isDiagonalNWxSEConnect(row,col)||isDiagonalNExSWConnect(row,col));
     	//return (isVerticalConnect(row,col));
     	//return (isHorizontalConnect(row,col));
@@ -93,7 +98,8 @@ var
     isVerticalConnect = function(row,col){
 		var colorCount=0;
     	//check vertical
-    	for (var x=board.length-1;i>0;i--){
+
+    	for (var x=board.length-1;x>0;x--){
     		if (board[x][col] === currentPlayer)
     			colorCount++;
     		else if (board[x][col] != currentPlayer)
@@ -104,16 +110,17 @@ var
     	return (colorCount>3);
     },
     isHorizontalConnect = function(row,col){
-    	var left=0,right=0,colorCount=0;
+	   	var left=0,right=0,colorCount=0;
+
     	//check horizontal
-    	for(left=col-1;row>0;left--)
+    	for(left=col-1;left>0;left--)
     		if(board[row][left]!=currentPlayer) break;
 
-		for(right=col;row<board[row].length;right++)
+		for(right=col;right<board.length;right++)
     		if(board[row][right]!=currentPlayer) break;
     	//alert(left+' '+right);
 		colorCount=right-left;
-    	return (colorCount>4);
+		return (colorCount>4);
     },
     isDiagonalNWxSEConnect = function(row,col){
     	//check NW x SE or \
