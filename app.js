@@ -78,8 +78,9 @@ var
 		}
     },
     checkBoardforWinner = function(row,col){
-    	//check vertical
     	var colorCount=0;
+    	//lets count the colored cells for current player who clicked
+    	//check vertical
     	for (var i=board.length-1;i>0;i--){
     		if (board[i][col] === currentPlayer)
     			colorCount ++;
@@ -88,7 +89,21 @@ var
 			if (colorCount>3 || board[i][col]=='') break;
     		//alert('color:'+colorCount+'___i:'+i);
     	}
-    	return colorCount>3;
+    	if (colorCount>3) return true;
+
+
+    	//check horizontal
+    	for (var i=board[row].length-1;i>0;i--){
+    		if (board[row][i] === currentPlayer)
+    			colorCount ++;
+    		else if (board[row][i] != currentPlayer)
+					colorCount = 0;
+			//alert('color:'+colorCount+'  ___xy:'+row+','+i);
+			if (colorCount>3 || board[row][i]=='') break;
+    	}
+    	if(colorCount>3) return true;
+
+    	//check diagonal
     }
     ;
     
