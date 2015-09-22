@@ -9,18 +9,22 @@ var
     	return get('cell'+row+'-'+col);
     },
     switchPlayer = function(){
-    	//alert(currentPlayer);
+    	get('cap').className = currentPlayer;
     	switch(currentPlayer){
-    		case 'red':{ 
+    		case 'red':{
     			currentPlayer = 'yellow';
     			break;
     		}
     		default: currentPlayer ='red'
     	}
+    	get('cap').className = currentPlayer;
+    	//='<span class="'+currentPlayer+'">(current turn)</span>';
 
     },
     begin = function(){
     	currentPlayer='red';
+    	get('cap').innerHTML='(now playing)';
+		get('cap').className = currentPlayer;
     	prepareBoard();
     	updateBoardView();
     },
@@ -67,43 +71,106 @@ var
 							updateBoardView();
 							cell(row,col).onclick=null;
 							if (checkBoardforWinner(row,col)){
+								get('cap').innerHTML='(winner!)';
 								alert(currentPlayer + ' wins!');
 								begin();
 							} else switchPlayer();
 						}
 					}(row,col)
-					break ;
+					break;
 				}
 			}
 		}
     },
     checkBoardforWinner = function(row,col){
-    	var colorCount=0;
-    	//lets count the colored cells for current player who clicked
+    	return (isVerticalConnect(row,col)||isHorizontalConnect(row,col)||isDiagonalNWxSEConnect(row,col)||isDiagonalNExSWConnect(row,col));
+    	//return (isVerticalConnect(row,col));
+    	//return (isHorizontalConnect(row,col));
+    	//return (isDiagonalNWxSEConnect(row,col));
+    	//return (isDiagonalNExSWConnect(row,col));
+
+    },
+    isVerticalConnect = function(row,col){
+		var colorCount=0;
     	//check vertical
-    	for (var i=board.length-1;i>0;i--){
-    		if (board[i][col] === currentPlayer)
-    			colorCount ++;
-    		else if (board[i][col] != currentPlayer)
+    	for (var x=board.length-1;i>0;i--){
+    		if (board[x][col] === currentPlayer)
+    			colorCount++;
+    		else if (board[x][col] != currentPlayer)
 					colorCount = 0;
-			if (colorCount>3 || board[i][col]=='') break;
+			if (colorCount>3 || board[x][col]=='') break;
     		//alert('color:'+colorCount+'___i:'+i);
     	}
-    	if (colorCount>3) return true;
-
-
+    	return (colorCount>3);
+    },
+    isHorizontalConnect = function(row,col){
+    	var left=0,right=0,colorCount=0;
     	//check horizontal
-    	for (var i=board[row].length-1;i>0;i--){
-    		if (board[row][i] === currentPlayer)
+    	for(left=col-1;row>0;left--)
+    		if(board[row][left]!=currentPlayer) break;
+
+		for(right=col;row<board[row].length;right++)
+    		if(board[row][right]!=currentPlayer) break;
+    	//alert(left+' '+right);
+		colorCount=right-left;
+    	return (colorCount>4);
+    },
+    isDiagonalNWxSEConnect = function(row,col){
+    	//check NW x SE or \
+    	//get lowest row col where we can start to loop
+    	var colorCount=0;
+    	var x=0,y=0;
+    	if (row > col) 
+    		x = row-col;
+    	else y = col-row;
+
+    	for (;x<6;x++){
+    		if (board[x][y] === currentPlayer)
     			colorCount ++;
-    		else if (board[row][i] != currentPlayer)
+    		else if (board[x][y] != currentPlayer)
 					colorCount = 0;
 			//alert('color:'+colorCount+'  ___xy:'+row+','+i);
-			if (colorCount>3 || board[row][i]=='') break;
+			if (colorCount>3 || board[x][y]==null) break;
+			y++;
+    	}
+    	return (colorCount>3);
+    },
+    isDiagonalNExSWConnect = function(row,col){
+    	//check SW x NE or /
+    	var colorCount=0;
+    	var x=0,y=0;
+
+    	if( (row+col)<board.length){ //possiblebord[row].lngth?
+    		x=row+col;
+    		y=0;
+    	} else {
+    		for (x=row,y=col;x<board.length-1;x++,y--);
+    	}
+		
+    	//alert(board.length);
+		if( (row+col)<board.length){
+			for(;x>=0;y++,x--){
+				//alert('color:'+colorCount+'  ___xy:'+x+','+y);
+				if (board[x][y] === currentPlayer)
+    				colorCount ++;
+    			else if (board[x][y] != currentPlayer)
+						colorCount = 0;
+			
+				if (colorCount>3 || board[x][y]==null) break;
+    		}
+    	}
+    	else {
+    		colorCount=0;
+    		for(;y<board[row].length;y++,x--){
+    			if (board[x][y] === currentPlayer)
+    				colorCount ++;
+    			else if (board[x][y] != currentPlayer)
+						colorCount = 0;
+			
+				if (colorCount>3 || board[x][y]==null) break;
+    		}
     	}
     	if(colorCount>3) return true;
-
-    	//check diagonal
     }
     ;
     
