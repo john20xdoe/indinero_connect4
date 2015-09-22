@@ -1,6 +1,6 @@
 (function(htmlfile){
 var
-	board = new Array(6),
+	board = null,
 	currentPlayer = 'red', //versus 'yellow'
 	get = function(id){
         return htmlfile.getElementById(id);
@@ -9,7 +9,7 @@ var
     	return get('cell'+row+'-'+col);
     },
     switchPlayer = function(){
-    	alert(currentPlayer);
+    	//alert(currentPlayer);
     	switch(currentPlayer){
     		case 'red':{ 
     			currentPlayer = 'yellow';
@@ -17,8 +17,15 @@ var
     		}
     		default: currentPlayer ='red'
     	}
+
+    },
+    begin = function(){
+    	currentPlayer='red';
+    	prepareBoard();
+    	updateBoardView();
     },
     prepareBoard = function(){
+    	board = new Array(6);
     	for (var row=0; row < board.length;row++)
     		board[row]=new Array(7);
 
@@ -33,7 +40,8 @@ var
     	for (var row=0;row < board.length;row++){
     		cellsHTML += '<tr>';
     		for (var col=0;col < board[row].length;col++){
-    			cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'"><a>'+board[row][col]+'<br>'+row+'-'+col+'</a></td>';
+    			//cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'"><a>'+board[row][col]+'<br>'+row+'-'+col+'</a></td>';
+    			cellsHTML += '<td class="'+board[row][col]+'" id="cell'+row+'-'+col+'"><a>'+row+'-'+col+'</a></td>';
     		}
     		cellsHTML += '</tr>';
     	}
@@ -56,24 +64,37 @@ var
 						return function(){   //we need to force early binding para di mawala si row,col
 							//alert('clicked '+row+':'+col +' with value: '+board[row][col]);
 							board[row][col]=currentPlayer;
-							switchPlayer();
 							updateBoardView();
 							cell(row,col).onclick=null;
+							if (checkBoardforWinner(row,col)){
+								alert(currentPlayer + ' wins!');
+								begin();
+							} else switchPlayer();
 						}
 					}(row,col)
 					break ;
 				}
 			}
 		}
+    },
+    checkBoardforWinner = function(row,col){
+    	//check vertical
+    	var colorCount=0;
+    	for (var i=board.length-1;i>0;i--){
+    		if (board[i][col] === currentPlayer)
+    			colorCount ++;
+    		else if (board[i][col] != currentPlayer)
+					colorCount = 0;
+			if (colorCount>3 || board[i][col]=='') break;
+    		//alert('color:'+colorCount+'___i:'+i);
+    	}
+    	return colorCount>3;
     }
     ;
     
-
-
     //Execution
 	get("startGame").onclick = function(){
 		//alert('hey');
-			prepareBoard();
-			updateBoardView();
+			begin();
 	};
 })(document);
