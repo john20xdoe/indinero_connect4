@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="bootstrap-combined.min.css" />
+        <link rel="stylesheet" href="styles.css" />
+
+        <title>C4 - A JS Implementation</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+    <div>
+    	<button id="startGame">New game</button>
+    	<br><!--
+    	<label>Red Player Name:</label>
+    	<input type="text" ng-model="c4.players.name" placeholder="Enter a name here">
+    	<label>Yellow Player Name:</label>
+    	<input type="text" ng-model="yellowPlayerName" placeholder="Enter a name here">
+    	<hr>
+    	<h3 ng-show="redPlayerName.length > 0 || yellowPlayerName.length > 0">Hello 
+    	<span ng-show="redPlayerName.length > 0">{{redPlayerName}}</span>
+    	<span ng-show="redPlayerName.length > 0 && yellowPlayerName.length > 0"> and </span>
+   		<span ng-show="yellowPlayerName.length > 0">{{yellowPlayerName}}</span>
+   		!</h3>-->
+    </div>
+ 	<div id="info">
+    <table>
+    	<tr>
+  			<td>Red's Turn</td>
+  			<td colspan="5"></td>
+  			<td>Yellow's Turn</td>
+  		</tr>
+    </table>
+    	<table id="boardWrap">
+  			<th colspan="7">
+  				Connect Four
+  			</th>
+			<tbody id="boardCells">
+  			</tbody>
+		</table>
+    </div>
+    </body>
+
+    <!--Now load the script for the board object-->
+    <script src="app.js"></script>
+</html>

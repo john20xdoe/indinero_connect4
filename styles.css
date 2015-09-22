@@ -1,0 +1,23 @@
+html{
+	margin: auto;
+	text-align: center;
+
+}
+table, #info, table#boardWrap{
+	margin: auto;
+}
+
+table#boardWrap tr {
+	border: 1px solid #000;
+}
+
+table#boardWrap td {
+	padding: 20px;
+	border: 1px solid #000;
+}
+table#boardWrap td.red{
+	background-color: red;
+}
+table#boardWrap td.yellow{
+	background-color: yellow;
+}
