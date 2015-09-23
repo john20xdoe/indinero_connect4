@@ -12,23 +12,25 @@
     <div>
     	<br>
     	<h1>Connect Four</h1>
-    	<sup>View the <a href="https://en.wikipedia.org/wiki/Connect_Four">rules of Connect4</a>.
+    	<sup>View the <a href="https://en.wikipedia.org/wiki/Connect_Four">rules of ConnectFour</a>. 
     		</sup>
-    	<br><br><br>
+    	<hr>
     </div>
  	<div id="info">
-    	<table id="boardWrap">
+    	<table id="boardWrap" tooltip="click a column to drop your disc">
     		<tr colspan="7">
-  				<button id="startGame">New Game</button>
+  				<button id="startGame">New Game</button><br>
+  				<span><i>Instructions: Play by clicking a column to drop your disc. First player to put 4 discs in a row wins.</i></span>
   			</tr>
-    		<caption id="cap">(click to start)</caption>
+    		<caption id="cap"></caption>
 
 			<tbody id="boardCells">
 				<!--table cells will be loaded here by js-->
   			</tbody>
 		</table>
     </div>
-    <sub>Coded by: Lee Alexis Bermejo. | <a href="https://github.com/john20xdoe/indinero_connect4"> github.com/john20xdoe/indinero_connect4</a></sub>
+    <br><br>
+    <sub>Coded by: Lee Alexis Bermejo. | 2015 | This game requires Javascript. Reload if page download was interrupted.</sub>
     </body>
 
     <!--Now load the script for the board object-->

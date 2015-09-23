@@ -2,7 +2,10 @@ html{
 	margin: auto;
 	text-align: center;
 }
+
 h1 {
+	font-size: 40px;
+	display: block;
 	background-color:#555;
 	font-family: Georgia;
 	text-shadow: 0px 1px 1px #aaa;
@@ -12,16 +15,21 @@ table, #info, table#boardWrap{
 	margin: auto;
 	font-family: Georgia !important;
 	border-spacing: 3px;
-	min-width: 100px;
+	min-width: 300px;
 }
 
-#startGame{
+#startGame, button{
 	text-shadow: 0px 1px 1px #aaa;
+	font-family: Georgia;
+	font-variant: small-caps;
 }
 
 #cap{
+	font-size:30px;
 	vertical-align: middle;
 	padding:20px 0;
+	text-shadow: 0 1px 2px #000;
+	color:#efefef;
 }
 
 table#boardWrap td {
@@ -39,9 +47,11 @@ table#boardWrap td:hover {
 
 .red{
 	background-color: #ba0101;
+	background:linear-gradient(to bottom, #ba0101 , #880000);
 }
 .yellow{
 	background-color: #ccbb3f;
+	background:linear-gradient(to bottom, #ccbb3f , #aa991d);
 }
 
 
